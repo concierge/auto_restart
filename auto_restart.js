@@ -2,7 +2,7 @@ let timeout;
 const defaultRestartTime = 120000;
 
 exports.load = function() {
-    let restartime = defaultRestartTime,
+    let restarTime = defaultRestartTime,
         configRestartTime = exports.config['restartTime'];
 
     if (configRestartTime) {
