@@ -20,3 +20,7 @@ exports.unload = function() {
 
 exports.run = function(api, event) {
 };
+
+exports.match = function(event, commandPrefix) {
+    return false;
+}
