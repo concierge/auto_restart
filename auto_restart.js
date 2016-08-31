@@ -1,5 +1,5 @@
 let timeout;
-const defaultRestartTime = 120000;
+const defaultRestartTime = 86400000;
 
 exports.load = function() {
     let restartTime = defaultRestartTime,
