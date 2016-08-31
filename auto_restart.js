@@ -17,3 +17,6 @@ exports.load = function() {
 exports.unload = function() {
     clearTimeout(timeout);
 };
+
+exports.run = function(api, event) {
+};
