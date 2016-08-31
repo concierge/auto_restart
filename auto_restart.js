@@ -10,7 +10,7 @@ exports.load = function() {
     }
 
     timeout = setTimeout(() => {
-        exports.platform.shutdown(exports.platform.StatusFlags.ShutdownShouldRestart);
+        exports.platform.shutdown(exports.platform.StatusFlag.ShutdownShouldRestart);
     }, restartTime);
 };
 
