@@ -1,9 +1,17 @@
 let timeout;
+const defaultRestartTime = 120000;
 
 exports.load = function() {
+    let restartIme = defaultRestartTime,
+        configRestartTime = exports.config[restartTime];
+
+    if (configRestartTime) {
+        restartTime =  configRestartTime;
+    }
+
     timeout = setTimeout(() => {
         exports.platform.shutdown(StatusFlags.ShutdownShouldRestart);
-    },120000);
+    }, restartTime);
 };
 
 exports.unload = function() {
