@@ -1,5 +1,6 @@
 {
 	"name": "auto_restart",
-	"version": 1.0,
-	"startup": "auto_restart.js"
+	"version": 2.0,
+	"startup": "auto_restart.js",
+    "type": "service"
 }

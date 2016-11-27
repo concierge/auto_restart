@@ -1,26 +1,15 @@
-let timeout;
-const defaultRestartTime = 86400000;
-
-exports.load = function() {
-    let restartTime = defaultRestartTime,
-        configRestartTime = exports.config['restartTime'];
-
-    if (configRestartTime) {
-        restartTime =  configRestartTime;
-    }
-
-    timeout = setTimeout(() => {
+const onError = (err, blame, api, event) => {
+    blame = blame.toLowerCase().trim();
+    if (blame === 'facebook' || blame === 'kpm_facebook') {
+        process.emitWarning('Facebook has crashed, restarting...');
         exports.platform.shutdown(StatusFlag.ShutdownShouldRestart);
-    }, restartTime);
+    }
 };
 
-exports.unload = function() {
-    clearTimeout(timeout);
+exports.load = (platform) => {
+    platform.on('uncaughtError', onError);
 };
 
-exports.run = function(api, event) {
+exports.unload = () => {
+    exports.platform.removeListener('uncaughtError', onError);
 };
-
-exports.match = function(event, commandPrefix) {
-    return false;
-}
