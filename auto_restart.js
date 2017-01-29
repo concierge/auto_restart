@@ -1,8 +1,21 @@
 const onError = (err, blame, api, event) => {
     blame = blame.toLowerCase().trim();
     if (blame === 'facebook' || blame === 'kpm_facebook') {
-        process.emitWarning('Facebook has crashed, restarting...');
-        exports.platform.shutdown(StatusFlag.ShutdownShouldRestart);
+        console.error('Facebook has crashed, reloading...');
+        const ml = exports.platform.modulesLoader;
+        try {
+            const mods = ml.getLoadedModules();
+            const mod = mods.find(m => m.__descriptor.name.indexOf('facebook') >= 0);
+            const descriptor = mod.__descriptor;
+            ml.unloadModule(mod);
+            const res = ml.loadModule(descriptor);
+            ml.startIntegration(exports.platform.onMessage.bind(exports.platform), res.module);
+        }
+        catch (e) {
+            console.critical(e);
+            console.error('Failed to reload, restarting instead.');
+            exports.platform.shutdown(StatusFlag.ShutdownShouldRestart);
+        }
     }
 };
 
